@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuerdos juntos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: linear-gradient(to bottom, #fff0f5, #fefbd8);
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d63384;
+      margin-bottom: 40px;
+      font-family: 'Pacifico', cursive;
+      font-size: 2em;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .photo-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .photo-container img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .photo-container:hover img {
+      transform: scale(1.05);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 182, 193, 0.88);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.95em;
+      border-radius: 16px;
+    }
+
+    .photo-container:hover .overlay {
+      opacity: 1;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      color: #d63384;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .back:hover {
+      color: #a12a5e;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📸 Nuestros momentos más lindos 📸</h1>
+
+<div class="gallery">
+  <div class="photo-container">
+    <img src="IMG_1.jpg" alt="Recuerdo 1">
+    <div class="overlay">Ese día me hiciste reír como nunca 💕</div>
+  </div>
+  <div class="photo-container">
+    <img src="IMG_2.jpg" alt="Recuerdo 2">
+    <div class="overlay">Nuestro primer paseo juntos 🥹</div>
+  </div>
+  <div class="photo-container">
+    <img src="IMG_3.jpg" alt="Recuerdo 3">
+    <div class="overlay">Aquí ya sabía que eras mi persona favorita 💖</div>
+  </div>
+</div>
+
+<a href="menu.html" class="back">← Volver al menú</a>
+
+</body>
+</html>

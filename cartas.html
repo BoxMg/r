@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartitas para ti</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Dancing Script', cursive;
+      padding: 40px 20px;
+      text-align: center;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    .night-mode {
+      background: #1a1a2e;
+      color: #eee;
+    }
+
+    h1 {
+      color: #d64b7b;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+    }
+
+    .carta {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 15px auto;
+      width: 90%;
+      max-width: 650px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .night-mode .carta {
+      background: #2d2d44;
+      color: #eee;
+    }
+
+    .carta:hover {
+      transform: scale(1.02);
+    }
+
+    .contenido {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease;
+      margin-top: 10px;
+    }
+
+    .carta.abierta {
+      animation: latido 0.4s ease;
+    }
+
+    .carta.abierta .contenido {
+      max-height: 1000px;
+    }
+
+    @keyframes latido {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    .contenido img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 40px;
+      color: #d64b7b;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    #toggleNight {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    #contador {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: #b22260;
+    }
+  </style>
+</head>
+<body>
+  <h1>💌 Mis palabras para ti 💌</h1>
+
+  <div class="carta" onclick="toggleCarta(this)" role="button" aria-expanded="false">
+    <strong>El inicio de todo lo bonito:</strong><br>
+    <em>“La primera vez que me hiciste sentir especial”</em>
+    <div class="contenido">
+      <img src="img/carta1.jpg" alt="Carta ilustrada 1">
+      Desde aquel primer día, supiste tocar mi vida sin darte cuenta. Gracias por ser mi inicio favorito.
+    </div>
+  </div>
+
+  <div class="carta" onclick="toggleCarta(this)" role="button" aria-expanded="false">
+    <strong>Para cuando sientas que la distancia pesa:</strong><br>
+    <em>“La distancia no me impide sentirte cerca de mí”</em>
+    <div class="contenido">
+      <img src="img/carta2.jpg" alt="Carta ilustrada 2">
+      Aunque no pueda tomarte de la mano todo el tiempo, te tengo más cerca que nunca... en el corazón.
+    </div>
+  </div>
+
+  <div class="carta" onclick="toggleCarta(this)" role="button" aria-expanded="false">
+    <strong>Tú eres mi recuerdo favorito:</strong><br>
+    <em>“Cada pedacito de ti está en mi corazón”</em>
+    <div class="contenido">
+      <img src="img/carta3.jpg" alt="Carta ilustrada 3">
+      Te amo en cada recuerdo, en cada foto, en cada día que pasa contigo en mi vida.
+    </div>
+  </div>
+
+  <p id="contador">Cartas leídas: 0 de 3</p>
+  <a class="back" href="menu.html">← Volver al menú</a>
+
+  <audio id="sonido" src="abrir.mp3" preload="auto"></audio>
+
+  <script>
+    let cartasLeidas = 0;
+
+    function toggleCarta(el) {
+      const contenido = el.querySelector(".contenido");
+      const yaAbierta = el.classList.contains("abierta");
+
+      if (!yaAbierta) {
+        el.classList.add("abierta");
+        el.setAttribute("aria-expanded", true);
+        document.getElementById("sonido").play();
+
+        // Contador
+        if (!el.dataset.abierta) {
+          cartasLeidas++;
+          el.dataset.abierta = "true";
+          actualizarContador();
+        }
+      } else {
+        el.classList.remove("abierta");
+        el.setAttribute("aria-expanded", false);
+      }
+    }
+
+    function actualizarContador() {
+      const texto = `Cartas leídas: ${cartasLeidas} de 3`;
+      const contador = document.getElementById("contador");
+      contador.textContent = texto;
+
+      if (cartasLeidas === 3) {
+        contador.innerHTML += "<br><strong>🎉 </strong>";
+      }
+    }
+
+    document.getElementById("toggleNight").addEventListener("click", () => {
+      document.body.classList.toggle("night-mode");
+    });
+  </script>
+
+</body>
+</html>

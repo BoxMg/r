@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiempo Juntos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      padding: 30px;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    .night-mode {
+      background: #1a1a2e;
+      color: white;
+    }
+
+    .pantalla {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    .activo {
+      display: block;
+      opacity: 1;
+    }
+
+    .boton {
+      margin: 10px;
+      padding: 15px 30px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .boton:hover {
+      background-color: #ff1493;
+    }
+
+    .gif {
+      width: 120px;
+      margin: 20px auto;
+    }
+
+    #night-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 20px;
+      z-index: 999;
+      cursor: pointer;
+    }
+
+    #contadorBox {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      margin: 30px auto;
+      font-size: 1.3em;
+      line-height: 1.8em;
+      color: #d63384;
+    }
+
+    .night-mode #contadorBox {
+      background: #2e2e4d;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="night-toggle">🌙</button>
+
+  <!-- Pantalla de inicio -->
+  <div class="pantalla activo" id="pantallaInicio">
+    <h1>⏳ ¿Quieres saber cuánto tiempo hemos estado juntitos?</h1>
+    <button class="boton" onclick="empezarCalculo()">Sí 💖</button>
+    <button class="boton" onclick="alert('¡Tal vez más tarde! 😘')">Tal vez más tarde</button>
+  </div>
+
+  <!-- Pantalla de carga -->
+  <div class="pantalla" id="pantallaCarga">
+    <h2>Calculando cuánto amor... 💘</h2>
+    <img class="gif" src="gif-corazon.gif" alt="Cargando..." />
+  </div>
+
+  <!-- Pantalla de resultado -->
+  <div class="pantalla" id="pantallaResultado">
+    <h2>💘 Hemos estado juntos 💘</h2>
+    <div id="contadorBox"></div>
+  </div>
+
+  <script>
+    const fechaInicio = new Date('2023-02-14T00:00:00');
+    const toggleBtn = document.getElementById("night-toggle");
+    const body = document.body;
+
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("night-mode");
+    });
+
+    function cambiarPantalla(idOcultar, idMostrar) {
+      document.getElementById(idOcultar).classList.remove("activo");
+      document.getElementById(idMostrar).classList.add("activo");
+    }
+
+    function empezarCalculo() {
+      cambiarPantalla("pantallaInicio", "pantallaCarga");
+
+      setTimeout(() => {
+        cambiarPantalla("pantallaCarga", "pantallaResultado");
+        mostrarTiempo();
+        setInterval(mostrarTiempo, 1000);
+      }, 3000);
+    }
+
+    function mostrarTiempo() {
+      const ahora = new Date();
+      let diff = ahora - fechaInicio;
+
+      const segundosTotales = Math.floor(diff / 1000);
+      const minutosTotales = Math.floor(segundosTotales / 60);
+      const horasTotales = Math.floor(minutosTotales / 60);
+      const diasTotales = Math.floor(horasTotales / 24);
+
+      const años = Math.floor(diasTotales / 365);
+      const meses = Math.floor((diasTotales % 365) / 30);
+      const dias = (diasTotales % 365) % 30;
+      const horas = horasTotales % 24;
+      const minutos = minutosTotales % 60;
+      const segundos = segundosTotales % 60;
+
+      document.getElementById("contadorBox").innerHTML = `
+        <div><strong>${años}</strong> años</div>
+        <div><strong>${meses}</strong> meses</div>
+        <div><strong>${dias}</strong> días</div>
+        <div><strong>${horas}</strong> horas</div>
+        <div><strong>${minutos}</strong> minutos</div>
+        <div><strong>${segundos}</strong> segundos</div>
+      `;
+    }
+  </script>
+
+</body>
+</html>

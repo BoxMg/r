@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cazador de Besos 💋</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #ffe4ec;
+      font-family: 'Pacifico', cursive;
+    }
+
+    .night-mode {
+      background: radial-gradient(#0d1b2a, #1a1a2e);
+      color: white;
+    }
+
+    #night-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 20px;
+      z-index: 999;
+      cursor: pointer;
+    }
+
+    #juego {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .jugador {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      font-size: 40px;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      line-height: 60px;
+    }
+
+    .item {
+      position: absolute;
+      font-size: 32px;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+    }
+
+    #puntaje, #vidas {
+      position: absolute;
+      top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #d63384;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+
+    #puntaje { left: 10px; }
+    #vidas { right: 10px; }
+
+    #mensaje {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <button id="night-toggle">🌙</button>
+  <div id="juego">
+    <div id="puntaje">Puntos: 0</div>
+    <div id="vidas">Vidas: 3</div>
+    <div class="jugador">🕺</div>
+    <div id="mensaje" style="display:none"></div>
+  </div>
+  <button onclick="location.href='Menu.html'" style="position: fixed; bottom: 10px; left: 10px; z-index: 1000;">Volver</button>
+
+  <script>
+    const jugador = document.querySelector('.jugador');
+    const juego = document.getElementById('juego');
+    const puntajeEl = document.getElementById('puntaje');
+    const vidasEl = document.getElementById('vidas');
+    const mensaje = document.getElementById('mensaje');
+    let puntos = 0;
+    let vidas = 3;
+
+    let jugadorX = window.innerWidth / 2 - 30;
+    jugador.style.left = `${jugadorX}px`;
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') jugadorX -= 40;
+      if (e.key === 'ArrowRight') jugadorX += 40;
+      if (jugadorX < 0) jugadorX = 0;
+      if (jugadorX > window.innerWidth - 60) jugadorX = window.innerWidth - 60;
+      jugador.style.left = `${jugadorX}px`;
+    });
+
+    function crearItem() {
+      const item = document.createElement('div');
+      item.classList.add('item');
+
+      const malo = Math.random() < 0.2;
+      item.dataset.malo = malo;
+      item.textContent = malo ? '💣' : '💋';
+
+      item.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+      item.style.top = '0px';
+      juego.appendChild(item);
+
+      let top = 0;
+      const intervalo = setInterval(() => {
+        top += 4;
+        item.style.top = top + 'px';
+        const itemRect = item.getBoundingClientRect();
+        const jugadorRect = jugador.getBoundingClientRect();
+
+        if (
+          itemRect.bottom >= jugadorRect.top &&
+          itemRect.left < jugadorRect.right &&
+          itemRect.right > jugadorRect.left
+        ) {
+          if (item.dataset.malo === 'true') {
+            vidas--;
+          } else {
+            puntos++;
+          }
+          actualizarUI();
+          juego.removeChild(item);
+          clearInterval(intervalo);
+        }
+
+        if (top > window.innerHeight) {
+          if (item.dataset.malo === 'false') vidas--;
+          actualizarUI();
+          juego.removeChild(item);
+          clearInterval(intervalo);
+        }
+
+        if (vidas <= 0) {
+          clearInterval(intervalo);
+          mensaje.innerHTML = '<h1>Juego terminado 😢</h1><button onclick="location.reload()">Reintentar</button>';
+          mensaje.style.display = 'block';
+        }
+      }, 30);
+    }
+
+    function actualizarUI() {
+      puntajeEl.textContent = `Puntos: ${puntos}`;
+      vidasEl.textContent = `Vidas: ${vidas}`;
+    }
+
+    setInterval(crearItem, 1000);
+
+    document.getElementById('night-toggle').onclick = () => {
+      document.body.classList.toggle('night-mode');
+    };
+  </script>
+</body>
+</html>

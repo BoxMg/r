@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Cumple Amor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #fff0f5, #fefbd8);
+      font-family: 'Dancing Script', cursive;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      flex-direction: column;
+      text-align: center;
+      transition: background 0.5s ease;
+    }
+
+    .night-mode {
+      background: radial-gradient(#0d1b2a, #1a1a2e);
+      color: #ffccda;
+    }
+
+    #night-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 10000;
+    }
+
+    .carta-container {
+      position: relative;
+    }
+
+    .carta-img {
+      width: 200px;
+      animation: flotar 3s ease-in-out infinite;
+    }
+
+    @keyframes flotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: black;
+      font-size: 2em;
+      margin: 0.5em 0 0;
+    }
+
+    h1 span {
+      color: hotpink;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-top: 0.5em;
+    }
+
+    .botones button {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      margin: 1em;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .si {
+      background-color: #ffb6c1;
+      color: white;
+    }
+
+    .si:hover {
+      background-color: #ff85a2;
+    }
+
+    .si.animate {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px red;
+    }
+
+    .heart-burst {
+      position: fixed;
+      font-size: 24px;
+      animation: burst 1s ease-out forwards;
+      color: red;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes burst {
+      0% { opacity: 1; transform: scale(0) translateY(0); }
+      100% { opacity: 0; transform: scale(2) translateY(-100px); }
+    }
+
+    .no {
+      background-color: #eee;
+      color: #333;
+      position: absolute;
+    }
+
+    .mensaje {
+      margin-top: 1em;
+      font-size: 1.2em;
+      color: #d63384;
+      display: none;
+      animation: aparecer 0.6s ease forwards;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .loader {
+      display: none;
+      margin-top: 1em;
+      width: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .carta-img {
+        width: 150px;
+      }
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="carta-container">
+    <img src="img/_͞________ׅ__𝗻𝗂𝗇𝗶___୧_𝅽୨____________ׁ________-removebg-preview.png" class="carta-img" alt="Carta">
+    <h1>Happy birthday <span>My love</span>!</h1>
+    <p>¿Deseas ingresar?</p>
+    <div class="botones">
+      <button class="si" id="yes-button">Sí</button>
+      <button class="no" id="noBtn" onmouseover="moverNo()">No</button>
+    </div>
+    <div class="mensaje" id="mensaje">¡Buena elección amorcito! （｡>‿‿<｡ ）</div>
+    <img src="https://i.gifer.com/ZZ5H.gif" class="loader" id="loader" alt="Cargando">
+  </div>
+
+  <script>
+
+
+    let intentosNo = 0;
+    const noBtn = document.getElementById("noBtn");
+    function moverNo() {
+      const offsetX = Math.floor(Math.random() * 300) - 150;
+      const offsetY = Math.floor(Math.random() * 300) - 150;
+      noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      intentosNo++;
+      if (intentosNo > 3) {
+        noBtn.innerText = "¿Estás seguro, amorcito? Ó╭╮Ò";
+      }
+    }
+
+    // ✨ BOTÓN SÍ CON ANIMACIÓN
+    const mensaje = document.getElementById("mensaje");
+    const loader = document.getElementById("loader");
+    const yesButton = document.getElementById("yes-button");
+
+    yesButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      yesButton.classList.add("animate");
+      for (let i = 0; i < 5; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart-burst";
+        heart.innerText = "❤️";
+        heart.style.left = (yesButton.offsetLeft + Math.random() * 100) + "px";
+        heart.style.top = (yesButton.offsetTop - 20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+      mensaje.style.display = "block";
+      loader.style.display = "inline";
+      setTimeout(() => {
+        window.location.href = "Menu.html";
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
