@@ -85,7 +85,6 @@
 </head>
 <body>
 
-  <button id="night-toggle">🌙</button>
 
   <!-- Pantalla de inicio -->
   <div class="pantalla activo" id="pantallaInicio">
@@ -111,9 +110,6 @@
     const toggleBtn = document.getElementById("night-toggle");
     const body = document.body;
 
-    toggleBtn.addEventListener("click", () => {
-      body.classList.toggle("night-mode");
-    });
 
     function cambiarPantalla(idOcultar, idMostrar) {
       document.getElementById(idOcultar).classList.remove("activo");
