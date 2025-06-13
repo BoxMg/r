@@ -28,6 +28,12 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       max-width: 600px;
       margin: 20px auto;
+      animation: aparecer 0.5s ease-in-out;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .pregunta h2 {
@@ -72,12 +78,17 @@
   <p id="resultado"></p>
   <a href="Menu.html" class="back">← Volver al menú</a>
 
+  <img src="img/spidey-love.png" alt="Spider-love" style="position: fixed; bottom: 20px; right: 20px; width: 100px;">
+  <audio autoplay loop>
+    <source src="musica/spiderman.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     const preguntas = [
       {
         texto: "¿Dónde nos vimos por primera vez?",
         opciones: ["En la u", "En el parque", "En la calle", "En una fiesta"],
-        correcta: 2
+        correcta: 0
       },
       {
         texto: "¿Cuál es mi color favorito?",
@@ -90,7 +101,7 @@
         correcta: 1
       },
       {
-        texto: "¿Cuál es mi apodo favorito para ti??",
+        texto: "¿Cuál es mi apodo favorito para ti?",
         opciones: ["amorcito", "cara de pipi", "cariño", "furrito"],
         correcta: 0
       },
@@ -114,10 +125,8 @@
         opciones: ["Mañana", "Tarde", "Noche", "Todo el día"],
         correcta: 3
       },
-    
-
       {
-        texto: "¿Qué me gusta mas de ti?",
+        texto: "¿Qué me gusta más de ti?",
         opciones: ["cuello", "ojos", "todo", "manos"],
         correcta: 2
       }
@@ -148,11 +157,21 @@
 
     function verificarRespuesta(seleccion) {
       const correcta = preguntas[indice].correcta;
+      const botones = document.querySelectorAll(".opciones button");
+
+      botones.forEach((btn, i) => {
+        btn.disabled = true;
+        btn.style.backgroundColor = i === correcta ? "#28a745" : (i === seleccion ? "#dc3545" : "#d63384");
+      });
+
       if (seleccion === correcta) {
         aciertos++;
       }
-      indice++;
-      mostrarPregunta();
+
+      setTimeout(() => {
+        indice++;
+        mostrarPregunta();
+      }, 1000);
     }
 
     function mostrarResultado() {
@@ -160,8 +179,12 @@
                       aciertos >= 5 ? "¡Muy bien! ¡Casi eres un superhéroe! 💘" :
                       "Ups... ¡Toca repetir la misión del amor! 😅";
 
-      document.getElementById("juego").innerHTML = "";
-      document.getElementById("resultado").textContent = `${mensaje} (Aciertos: ${aciertos}/${preguntas.length})`;
+      document.getElementById("juego").innerHTML = "<button onclick='location.reload()'>Reintentar</button>";
+      document.getElementById("resultado").innerHTML = `${mensaje} (Aciertos: ${aciertos}/${preguntas.length})`;
+
+      if (aciertos === preguntas.length) {
+        document.getElementById("resultado").innerHTML += "<br><strong>¡Has desbloqueado un premio secreto! 🏆</strong>";
+      }
     }
 
     mostrarPregunta();
