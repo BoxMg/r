@@ -2,176 +2,169 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Cazador de Besos 💋</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minijuego del Amor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      overflow: hidden;
-      background: #ffe4ec;
-      font-family: 'Pacifico', cursive;
-    }
-
-    .night-mode {
-      background: radial-gradient(#0d1b2a, #1a1a2e);
-      color: white;
-    }
-
-    #night-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background-color: #333;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 50%;
-      font-size: 20px;
-      z-index: 999;
-      cursor: pointer;
-    }
-
-    #juego {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .jugador {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      font-size: 40px;
-      width: 60px;
-      height: 60px;
+      background: linear-gradient(to bottom, #ffe4ec, #fcd5ce);
+      font-family: 'Comic Neue', cursive;
+      padding: 30px;
       text-align: center;
-      line-height: 60px;
-    }
-
-    .item {
-      position: absolute;
-      font-size: 32px;
-      width: 40px;
-      height: 40px;
-      text-align: center;
-      line-height: 40px;
-    }
-
-    #puntaje, #vidas {
-      position: absolute;
-      top: 10px;
-      font-size: 20px;
-      font-weight: bold;
       color: #d63384;
-      background: rgba(255, 255, 255, 0.7);
-      padding: 5px 10px;
-      border-radius: 10px;
     }
 
-    #puntaje { left: 10px; }
-    #vidas { right: 10px; }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      font-family: 'Dancing Script', cursive;
+      color: #b22260;
+    }
 
-    #mensaje {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
+    .pregunta {
+      background: #fff;
       padding: 20px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .pregunta h2 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .opciones button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #d63384;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .opciones button:hover {
+      background: #b22260;
+    }
+
+    #resultado {
+      margin-top: 30px;
+      font-size: 1.3em;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      color: #d63384;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div id="juego">
-    <div id="puntaje">Puntos: 0</div>
-    <div id="vidas">Vidas: 3</div>
-    <div class="jugador">🕺</div>
-    <div id="mensaje" style="display:none"></div>
-  </div>
-  <button onclick="location.href='Menu.html'" style="position: fixed; bottom: 10px; left: 10px; z-index: 1000;">Volver</button>
+  <h1>🎮 ¿Cuánto me conoces, mi amor? 🎮</h1>
+  <div id="juego"></div>
+  <p id="resultado"></p>
+  <a href="Menu.html" class="back">← Volver al menú</a>
 
   <script>
-    const jugador = document.querySelector('.jugador');
-    const juego = document.getElementById('juego');
-    const puntajeEl = document.getElementById('puntaje');
-    const vidasEl = document.getElementById('vidas');
-    const mensaje = document.getElementById('mensaje');
-    let puntos = 0;
-    let vidas = 3;
+    const preguntas = [
+      {
+        texto: "¿Dónde nos vimos por primera vez?",
+        opciones: ["En la u", "En el parque", "En la calle", "En una fiesta"],
+        correcta: 2
+      },
+      {
+        texto: "¿Cuál es mi color favorito?",
+        opciones: ["rojo", "gris", "rosa", "lila"],
+        correcta: 1
+      },
+      {
+        texto: "¿Qué me hace sonreír siempre?",
+        opciones: ["Chocolate", "Tú", "TikToks", "Dormir"],
+        correcta: 1
+      },
+      {
+        texto: "¿Cuál es mi apodo favorito para ti??",
+        opciones: ["amorcito", "cara de pipi", "cariño", "furrito"],
+        correcta: 0
+      },
+      {
+        texto: "¿Qué superpoder querría tener?",
+        opciones: ["Volar", "Leer mentes", "Telarañas", "Teletransportación"],
+        correcta: 3
+      },
+      {
+        texto: "¿Cuál es mi sabor de helado favorito?",
+        opciones: ["Fresa", "Chocolate", "Vainilla", "cookies and cream"],
+        correcta: 3
+      },
+      {
+        texto: "¿Qué canción me recuerda a ti?",
+        opciones: ["No one noticed", "Yellow", "pretty boy", "Otra"],
+        correcta: 0
+      },
+      {
+        texto: "¿A qué hora suelo pensar más en ti?",
+        opciones: ["Mañana", "Tarde", "Noche", "Todo el día"],
+        correcta: 3
+      },
+    
 
-    let jugadorX = window.innerWidth / 2 - 30;
-    jugador.style.left = `${jugadorX}px`;
+      {
+        texto: "¿Qué me gusta mas de ti?",
+        opciones: ["cuello", "ojos", "todo", "manos"],
+        correcta: 2
+      }
+    ];
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') jugadorX -= 40;
-      if (e.key === 'ArrowRight') jugadorX += 40;
-      if (jugadorX < 0) jugadorX = 0;
-      if (jugadorX > window.innerWidth - 60) jugadorX = window.innerWidth - 60;
-      jugador.style.left = `${jugadorX}px`;
-    });
+    let indice = 0;
+    let aciertos = 0;
 
-    function crearItem() {
-      const item = document.createElement('div');
-      item.classList.add('item');
+    function mostrarPregunta() {
+      if (indice >= preguntas.length) {
+        mostrarResultado();
+        return;
+      }
 
-      const malo = Math.random() < 0.2;
-      item.dataset.malo = malo;
-      item.textContent = malo ? '💣' : '💋';
+      const contenedor = document.getElementById("juego");
+      const pregunta = preguntas[indice];
+      let html = `<div class="pregunta">
+        <h2>${pregunta.texto}</h2>
+        <div class="opciones">`;
 
-      item.style.left = Math.random() * (window.innerWidth - 40) + 'px';
-      item.style.top = '0px';
-      juego.appendChild(item);
+      pregunta.opciones.forEach((opcion, i) => {
+        html += `<button onclick="verificarRespuesta(${i})">${opcion}</button>`;
+      });
 
-      let top = 0;
-      const intervalo = setInterval(() => {
-        top += 4;
-        item.style.top = top + 'px';
-        const itemRect = item.getBoundingClientRect();
-        const jugadorRect = jugador.getBoundingClientRect();
-
-        if (
-          itemRect.bottom >= jugadorRect.top &&
-          itemRect.left < jugadorRect.right &&
-          itemRect.right > jugadorRect.left
-        ) {
-          if (item.dataset.malo === 'true') {
-            vidas--;
-          } else {
-            puntos++;
-          }
-          actualizarUI();
-          juego.removeChild(item);
-          clearInterval(intervalo);
-        }
-
-        if (top > window.innerHeight) {
-          if (item.dataset.malo === 'false') vidas--;
-          actualizarUI();
-          juego.removeChild(item);
-          clearInterval(intervalo);
-        }
-
-        if (vidas <= 0) {
-          clearInterval(intervalo);
-          mensaje.innerHTML = '<h1>Juego terminado 😢</h1><button onclick="location.reload()">Reintentar</button>';
-          mensaje.style.display = 'block';
-        }
-      }, 30);
+      html += `</div></div>`;
+      contenedor.innerHTML = html;
     }
 
-    function actualizarUI() {
-      puntajeEl.textContent = `Puntos: ${puntos}`;
-      vidasEl.textContent = `Vidas: ${vidas}`;
+    function verificarRespuesta(seleccion) {
+      const correcta = preguntas[indice].correcta;
+      if (seleccion === correcta) {
+        aciertos++;
+      }
+      indice++;
+      mostrarPregunta();
     }
 
-    setInterval(crearItem, 1000);
+    function mostrarResultado() {
+      const mensaje = aciertos >= 8 ? "¡Eres mi verdadero Spider-Match! 🕸️❤️" :
+                      aciertos >= 5 ? "¡Muy bien! ¡Casi eres un superhéroe! 💘" :
+                      "Ups... ¡Toca repetir la misión del amor! 😅";
 
-    document.getElementById('night-toggle').onclick = () => {
-      document.body.classList.toggle('night-mode');
-    };
+      document.getElementById("juego").innerHTML = "";
+      document.getElementById("resultado").textContent = `${mensaje} (Aciertos: ${aciertos}/${preguntas.length})`;
+    }
+
+    mostrarPregunta();
   </script>
 </body>
 </html>
