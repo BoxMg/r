@@ -7,16 +7,12 @@
   <style>
     body {
       background: #fff0f5;
-      font-family: 'Quicksand', sans-serif;
+      font-family: 'Dancing Script', sans-serif;
       padding: 40px 20px;
       text-align: center;
       transition: background 0.5s, color 0.5s;
     }
 
-    .night-mode {
-      background: #1a1a2e;
-      color: #eee;
-    }
 
     h1 {
       color: #d64b7b;
@@ -36,11 +32,6 @@
       transition: transform 0.3s, background 0.3s;
       cursor: pointer;
       text-align: left;
-    }
-
-    .night-mode .carta {
-      background: #2d2d44;
-      color: #eee;
     }
 
     .carta:hover {
@@ -195,7 +186,7 @@
 
     function lanzarCorazon() {
       const corazon = document.createElement("div");
-      corazon.textContent = "💖";
+      corazon.textContent = "💗💗💗";
       corazon.className = "corazon";
       corazon.style.left = Math.random() * 100 + "vw";
       corazon.style.top = "100vh";
