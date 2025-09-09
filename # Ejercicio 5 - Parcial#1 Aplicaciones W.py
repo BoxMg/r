@@ -5,7 +5,7 @@ productos = []
 
 while True:
     nombre = input("Ingrese el nombre del producto (o 'fin' para salir): ")
-    if nombre.lower() == "fin":
+    if nombre.lower() =="fin":
         break
     precio = float(input("Ingrese el precio: "))
     productos.append({"nombre": nombre, "precio": precio})
